@@ -35,8 +35,13 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar: AppBar(
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             title: Text(widget.title)),
-        body: LanguagesSimple(onPressedLanguage: (List<String> val) {
-          debugPrint('$val');
-        }));
+        body: LanguagesSimple(
+          onPressedLanguage: (List<String> val) {
+            debugPrint('$val');
+          },
+          decoration: const BoxDecoration(color: Colors.white),
+          selectedDecoration: const BoxDecoration(color: Colors.green),
+          // isSortedByLangeCode: true,
+        ));
   }
 }

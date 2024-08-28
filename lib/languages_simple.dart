@@ -4,23 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:languages_simple/const.dart';
 
-class LanguagesSimple extends StatelessWidget {
+class LanguagesSimple extends StatefulWidget {
   final Function? onPressedLanguage;
   //
   final AlignmentGeometry? alignment;
   final EdgeInsetsGeometry? padding;
   final Color? color;
   final Decoration? decoration;
-  final Decoration? foregroundDecoration;
+  final Decoration? selectedDecoration;
   final double? width;
   final double? height;
   final BoxConstraints? constraints;
   final EdgeInsetsGeometry? margin;
   final Matrix4? transform;
   final AlignmentGeometry? transformAlignment;
-  final Clip clipBehavior = Clip.none;
-  //
   final bool? shrinkWrap;
+  final bool? isSortedByLangeCode;
 
   const LanguagesSimple({
     super.key,
@@ -29,7 +28,7 @@ class LanguagesSimple extends StatelessWidget {
     this.padding,
     this.color,
     this.decoration,
-    this.foregroundDecoration,
+    this.selectedDecoration,
     this.width,
     this.height,
     this.constraints,
@@ -37,31 +36,51 @@ class LanguagesSimple extends StatelessWidget {
     this.transform,
     this.transformAlignment,
     this.shrinkWrap,
+    this.isSortedByLangeCode,
   });
+
+  @override
+  State<LanguagesSimple> createState() => _LanguagesSimpleState();
+}
+
+class _LanguagesSimpleState extends State<LanguagesSimple> {
+  int _selectedIndex = -1;
+  Map<String, String> _handledLanguages = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        shrinkWrap: shrinkWrap ?? false,
-        itemCount: languages.length,
+        shrinkWrap: widget.shrinkWrap ?? false,
+        itemCount: _handledLanguages.length,
         itemBuilder: (_, i) {
           return GestureDetector(
               onTap: () {
                 final data = [
-                  languages.keys.elementAt(i).substring(0, 2),
-                  languages.values.elementAt(i)
+                  _handledLanguages.keys.elementAt(i).substring(0, 2),
+                  _handledLanguages.values.elementAt(i)
                 ];
-                onPressedLanguage?.call(data);
+                _selectedIndex = i;
+                widget.onPressedLanguage?.call(data);
+                setState(() {});
               },
               child: Container(
-                  padding: padding ?? const EdgeInsets.all(20),
-                  margin: margin ?? const EdgeInsets.all(5),
-                  decoration:
-                      decoration ?? const BoxDecoration(color: Colors.white),
+                  padding: widget.padding ?? const EdgeInsets.all(20),
+                  margin: widget.margin ?? const EdgeInsets.all(5),
+                  decoration: i == _selectedIndex
+                      ? widget.selectedDecoration
+                      : widget.decoration ??
+                          const BoxDecoration(color: Colors.white),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(child: Text(languages.values.elementAt(i))),
+                        Expanded(
+                            child: Text(_handledLanguages.values.elementAt(i))),
                         SvgPicture.asset(_getImagePath(i),
                             height: 24, width: 32)
                       ])));
@@ -70,12 +89,21 @@ class LanguagesSimple extends StatelessWidget {
 
   _getImagePath(int i) {
     String name = '';
-    String fileName = languages.keys.elementAt(i);
+    String fileName = _handledLanguages.keys.elementAt(i);
     if (fileName.contains('-')) {
       name = fileName.split('-').last;
     } else {
       name = fileName;
     }
     return 'packages/languages_simple/lib/res/svg/$name.svg';
+  }
+
+  _init() {
+    if (widget.isSortedByLangeCode == null) {
+      _handledLanguages = Map.fromEntries(languages.entries.toList()
+        ..sort((a, b) => a.value.compareTo(b.value)));
+    } else {
+      _handledLanguages = languages;
+    }
   }
 }
