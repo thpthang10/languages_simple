@@ -19,7 +19,7 @@ class LanguagesSimple extends StatefulWidget {
   final Matrix4? transform;
   final AlignmentGeometry? transformAlignment;
   final bool? shrinkWrap;
-  final bool? isSortedByLangeCode;
+  final bool? isSortedByLanguageCode;
 
   const LanguagesSimple({
     super.key,
@@ -36,7 +36,7 @@ class LanguagesSimple extends StatefulWidget {
     this.transform,
     this.transformAlignment,
     this.shrinkWrap,
-    this.isSortedByLangeCode,
+    this.isSortedByLanguageCode,
   });
 
   @override
@@ -99,7 +99,7 @@ class _LanguagesSimpleState extends State<LanguagesSimple> {
   }
 
   _init() {
-    if (widget.isSortedByLangeCode == null) {
+    if (widget.isSortedByLanguageCode == null) {
       _handledLanguages = Map.fromEntries(languages.entries.toList()
         ..sort((a, b) => a.value.compareTo(b.value)));
     } else {
