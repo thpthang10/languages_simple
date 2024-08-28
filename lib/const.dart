@@ -5,7 +5,7 @@ final languageCodeToCountryCode = {
 
 final languages = {
   "af": "Afrikaans",
-  "ar": "Arabic",
+  "ar-sa": "Arabic",
   "az": "Azeri (Latin)",
   "be": "Belarusian",
   "bg": "Bulgarian",
@@ -137,7 +137,7 @@ final languages = {
 final originalLanguages = {
   "af": "Afrikaans",
   // "af-ZA": "Afrikaans (South Africa)",
-  "ar": "Arabic",
+  // "ar": "Arabic",
   // "ar-AE": "Arabic (U.A.E.)",
   // "ar-BH": "Arabic (Bahrain)",
   // "ar-DZ": "Arabic (Algeria)",
@@ -150,7 +150,7 @@ final originalLanguages = {
   // "ar-MA": "Arabic (Morocco)",
   // "ar-OM": "Arabic (Oman)",
   // "ar-QA": "Arabic (Qatar)",
-  // "ar-SA": "Arabic (Saudi Arabia)",
+  "ar-SA": "Arabic (Saudi Arabia)",
   // "ar-SY": "Arabic (Syria)",
   // "ar-TN": "Arabic (Tunisia)",
   // "ar-YE": "Arabic (Yemen)",
