@@ -1,6 +1,6 @@
 name: languages_simple
 description: "A Flutter package for displaying the SVG images of language flags."
-version: 0.0.9
+version: 0.0.10
 homepage:
 
 environment:

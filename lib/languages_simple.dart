@@ -20,6 +20,8 @@ class LanguagesSimple extends StatefulWidget {
   final AlignmentGeometry? transformAlignment;
   final bool? shrinkWrap;
   final bool? isSortedByLanguageCode;
+  //
+  final List<String>? languageCodes;
 
   const LanguagesSimple({
     super.key,
@@ -37,6 +39,7 @@ class LanguagesSimple extends StatefulWidget {
     this.transformAlignment,
     this.shrinkWrap,
     this.isSortedByLanguageCode,
+    this.languageCodes,
   });
 
   @override
@@ -98,12 +101,48 @@ class _LanguagesSimpleState extends State<LanguagesSimple> {
     return 'packages/languages_simple/lib/res/svg/$name.svg';
   }
 
-  _init() {
+  _getFinalLanguages() async {
+    List<String> formattedCodes = [];
+    Map<String, String> finalLanguages = {};
+
+    if (widget.languageCodes != null) {
+      if (widget.languageCodes!.isNotEmpty) {
+        //
+        // Some language codes and country codes are different
+        for (String e in widget.languageCodes!) {
+          if (languageCountryPairs.containsKey(e)) {
+            formattedCodes.add('${languageCountryPairs[e]}');
+          } else {
+            formattedCodes.add(e);
+          }
+        }
+        //
+        // Get finalLanguages with a list of custom language codes
+        for (String e in formattedCodes) {
+          if (languages.containsKey(e)) finalLanguages[e] = '${languages[e]}';
+        }
+      }
+    } else {
+      finalLanguages = languages;
+    }
+
+    return finalLanguages;
+  }
+
+  _init() async {
+    //
+    // User can pass their own language code list
+    Map<String, String> finalLanguages = await _getFinalLanguages();
+
+    //
+    // Sort by AZ or by language code
     if (widget.isSortedByLanguageCode == null) {
-      _handledLanguages = Map.fromEntries(languages.entries.toList()
+      _handledLanguages = Map.fromEntries(finalLanguages.entries.toList()
         ..sort((a, b) => a.value.compareTo(b.value)));
     } else {
-      _handledLanguages = languages;
+      _handledLanguages = finalLanguages;
     }
+
+    setState(() {});
   }
 }
