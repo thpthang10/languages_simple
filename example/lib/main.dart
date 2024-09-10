@@ -32,56 +32,83 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-            title: Text(widget.title)),
-        //
-        // --------------------------------
-        // Simple case
-        // --------------------------------
-        // body: LanguagesSimple(
-        //   onPressedLanguage: (List<String> val) {
-        //     debugPrint('$val');
-        //   },
-        //   decoration: const BoxDecoration(color: Colors.white),
-        //   selectedDecoration: const BoxDecoration(color: Colors.green),
-        // ),
-        //
-        // --------------------------------
-        // Sort by language codes
-        // --------------------------------
-        // body: LanguagesSimple(
-        //   onPressedLanguage: (List<String> val) {
-        //     debugPrint('$val');
-        //   },
-        //   decoration: const BoxDecoration(color: Colors.white),
-        //   selectedDecoration: const BoxDecoration(color: Colors.green),
-        //   isSortedByLanguageCode: true,
-        // ),
-        //
-        // --------------------------------
-        // Pass your own language codes
-        // --------------------------------
-        body: LanguagesSimple(
-          onPressedLanguage: (List<String> val) {
-            debugPrint('$val');
-          },
-          decoration: const BoxDecoration(color: Colors.white),
-          selectedDecoration: const BoxDecoration(color: Colors.green),
-          // your favorite language codes
-          languageCodes: const [
-            'ar',
-            'ca',
-            'cn',
-            'en',
-            'fr',
-            'hi',
-            'ja',
-            'ko',
-            'pt',
-            'ru',
-            'vi',
-          ],
-        ));
+      appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Text(widget.title)),
+      //
+      // --------------------------------
+      // Simple case
+      // --------------------------------
+      // body: LanguagesSimple(
+      //   onPressedLanguage: (List<String> val) {
+      //     debugPrint('$val');
+      //   },
+      //   decoration: const BoxDecoration(color: Colors.white),
+      //   selectedDecoration: const BoxDecoration(color: Colors.green),
+      // ),
+      //
+      // --------------------------------
+      // Sort by language codes
+      // --------------------------------
+      // body: LanguagesSimple(
+      //   onPressedLanguage: (List<String> val) {
+      //     debugPrint('$val');
+      //   },
+      //   decoration: const BoxDecoration(color: Colors.white),
+      //   selectedDecoration: const BoxDecoration(color: Colors.green),
+      //   isSortedByLanguageCode: true,
+      // ),
+      //
+      // --------------------------------
+      // Pass your own language codes
+      // --------------------------------
+      // body: LanguagesSimple(
+      //   onPressedLanguage: (List<String> val) {
+      //     debugPrint('$val');
+      //   },
+      //   decoration: const BoxDecoration(color: Colors.white),
+      //   selectedDecoration: const BoxDecoration(color: Colors.green),
+      //   // your favorite language codes
+      //   languageCodes: const [
+      //     'ar',
+      //     'ca',
+      //     'cn',
+      //     'en',
+      //     'fr',
+      //     'hi',
+      //     'ja',
+      //     'ko',
+      //     'pt',
+      //     'ru',
+      //     'vi',
+      //   ],
+      // ),
+      //
+      // ------------------------------------
+      // Pass your own initial language code
+      // ------------------------------------
+      body: LanguagesSimple(
+        onPressedLanguage: (List<String> val) {
+          debugPrint('$val');
+        },
+        decoration: const BoxDecoration(color: Colors.white),
+        selectedDecoration: const BoxDecoration(color: Colors.green),
+        // your favorite language codes
+        languageCodes: const [
+          'ar',
+          'ca',
+          'cn',
+          'en',
+          'fr',
+          'hi',
+          'ja',
+          'ko',
+          'pt',
+          'ru',
+          'vi',
+        ],
+        initialLanguageCode: 'fr',
+      ),
+    );
   }
 }

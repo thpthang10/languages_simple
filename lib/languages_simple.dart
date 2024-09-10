@@ -22,6 +22,8 @@ class LanguagesSimple extends StatefulWidget {
   final bool? isSortedByLanguageCode;
   //
   final List<String>? languageCodes;
+  //
+  final String? initialLanguageCode;
 
   const LanguagesSimple({
     super.key,
@@ -40,6 +42,7 @@ class LanguagesSimple extends StatefulWidget {
     this.shrinkWrap,
     this.isSortedByLanguageCode,
     this.languageCodes,
+    this.initialLanguageCode,
   });
 
   @override
@@ -129,6 +132,15 @@ class _LanguagesSimpleState extends State<LanguagesSimple> {
     return finalLanguages;
   }
 
+  _getHandledLanguages(Map<String, String> finalLanguages) async {
+    if (widget.isSortedByLanguageCode == null) {
+      _handledLanguages = Map.fromEntries(finalLanguages.entries.toList()
+        ..sort((a, b) => a.value.compareTo(b.value)));
+    } else {
+      _handledLanguages = finalLanguages;
+    }
+  }
+
   _init() async {
     //
     // User can pass their own language code list
@@ -136,11 +148,20 @@ class _LanguagesSimpleState extends State<LanguagesSimple> {
 
     //
     // Sort by AZ or by language code
-    if (widget.isSortedByLanguageCode == null) {
-      _handledLanguages = Map.fromEntries(finalLanguages.entries.toList()
-        ..sort((a, b) => a.value.compareTo(b.value)));
-    } else {
-      _handledLanguages = finalLanguages;
+    await _getHandledLanguages(finalLanguages);
+
+    //
+    // User can pass their initial language code
+    if (widget.initialLanguageCode != null) {
+      if (widget.initialLanguageCode!.isNotEmpty) {
+        for (int i = 0; i < _handledLanguages.keys.length; i++) {
+          if (_handledLanguages.keys.elementAt(i) ==
+              widget.initialLanguageCode) {
+            _selectedIndex = i;
+            break;
+          }
+        }
+      }
     }
 
     setState(() {});
