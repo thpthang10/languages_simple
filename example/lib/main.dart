@@ -107,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
           'ru',
           'vi',
         ],
-        initialLanguageCode: 'fr',
+        initialLanguageCode: 'en',
       ),
     );
   }

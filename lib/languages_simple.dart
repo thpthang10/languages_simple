@@ -104,8 +104,8 @@ class _LanguagesSimpleState extends State<LanguagesSimple> {
     return 'packages/languages_simple/lib/res/svg/$name.svg';
   }
 
+  List<String> formattedCodes = [];
   _getFinalLanguages() async {
-    List<String> formattedCodes = [];
     Map<String, String> finalLanguages = {};
 
     if (widget.languageCodes != null) {
@@ -132,7 +132,7 @@ class _LanguagesSimpleState extends State<LanguagesSimple> {
     return finalLanguages;
   }
 
-  _getHandledLanguages(Map<String, String> finalLanguages) async {
+  _sortLanguages(Map<String, String> finalLanguages) async {
     if (widget.isSortedByLanguageCode == null) {
       _handledLanguages = Map.fromEntries(finalLanguages.entries.toList()
         ..sort((a, b) => a.value.compareTo(b.value)));
@@ -148,17 +148,24 @@ class _LanguagesSimpleState extends State<LanguagesSimple> {
 
     //
     // Sort by AZ or by language code
-    await _getHandledLanguages(finalLanguages);
+    await _sortLanguages(finalLanguages);
 
     //
     // User can pass their initial language code
     if (widget.initialLanguageCode != null) {
       if (widget.initialLanguageCode!.isNotEmpty) {
         for (int i = 0; i < _handledLanguages.keys.length; i++) {
-          if (_handledLanguages.keys.elementAt(i) ==
-              widget.initialLanguageCode) {
-            _selectedIndex = i;
-            break;
+          final key = _handledLanguages.keys.elementAt(i);
+          if (key.contains('-')) {
+            if (key.split('-')[0] == widget.initialLanguageCode) {
+              _selectedIndex = i;
+              break;
+            }
+          } else {
+            if (key == widget.initialLanguageCode) {
+              _selectedIndex = i;
+              break;
+            }
           }
         }
       }
